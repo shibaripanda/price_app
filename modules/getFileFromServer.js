@@ -3,29 +3,29 @@ import fs from "fs"
 
 export default function getFileFromServer(link, nameFile){
     const now = new Date().toLocaleDateString()
-    console.log(now)
-    let yestarday
-    let yestarday1
+    let now1
+    let now2
     if(now.split('.')[0][0] == 0){
-        yestarday = '0' + (now.split('.')[0] = Number(now.split('.')[0]) - 1) + '.' + now.split('.')[1] + '.' +  now.split('.')[2]
-        yestarday1 = '0' + (now.split('.')[0] = Number(now.split('.')[0]) - 2) + '.' + now.split('.')[1] + '.' +  now.split('.')[2]
+        now1 = '0' + (now.split('.')[0] = Number(now.split('.')[0]) - 1) + '.' + now.split('.')[1] + '.' +  now.split('.')[2]
+        now2 = '0' + (now.split('.')[0] = Number(now.split('.')[0]) - 2) + '.' + now.split('.')[1] + '.' +  now.split('.')[2]
     }
     else{
-        yestarday = (now.split('.')[0] = Number(now.split('.')[0]) - 1) + '.' + now.split('.')[1] + '.' +  now.split('.')[2]
-        yestarday1 = '0' + (now.split('.')[0] = Number(now.split('.')[0]) - 2) + '.' + now.split('.')[1] + '.' +  now.split('.')[2]
+        now1 = (now.split('.')[0] = Number(now.split('.')[0]) - 1) + '.' + now.split('.')[1] + '.' +  now.split('.')[2]
+        now2 = (now.split('.')[0] = Number(now.split('.')[0]) - 2) + '.' + now.split('.')[1] + '.' +  now.split('.')[2]
     }
-    console.log(yestarday)
 
-    for (let i of [now,  yestarday, yestarday1]){
-            http.get(link + i + '.xls', response => {
-            if(response.statusMessage == 'OK'){
+    for (let i of [now, now1, now2]){
+        let x = true
+        http.get(link + i + '.xls', response => {
+            if(response.statusMessage == 'OK' && x == true){
                 const file = fs.createWriteStream(nameFile)
                 response.pipe(file)
-                console.log('getFileFromServer OK')
+                console.log(i + ' getFileFromServer Save OK')
+                x = false
             }
-            else{
-                console.log('getFileFromServer Error')
-            }
-        }) 
+        })
+        if(x == false){
+            break
+        } 
     }
 }

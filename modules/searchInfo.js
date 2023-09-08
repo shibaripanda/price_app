@@ -1,7 +1,8 @@
 export default function searchInfo(model, baza){
-    const result = baza.filter(item => (item[4].split(' ')).includes(model) && item[3] == '+')
-    for (let i of result){
-        console.log(i[0] + ': ' + i[4] + ' ' + i[5] + ' Price: ' + i[6])
-    }  
+    let result = baza
+    for (let i = 0; i < model.length; i++){
+        result = result.filter(item => (item[4].toLowerCase().replace(/ +/g, ' ').trim().replace(/,/g, ' ').split(' ')).includes(model[i]) && item[0] == 'LCD')
+    }
+    return result 
 }
 

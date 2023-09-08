@@ -22,7 +22,6 @@ bot.on('message', async (ctx) => {
         const value = ctx.message.text.toLowerCase().replace(/ +/g, ' ').trim().split(' ')
         const result = searchInfo(value, bazaPrice)
         let text = ctx.message.text.replace(/ +/g, ' ').trim() + '\n--------'
-        let flag = '✅'
         for(let i of result){
             let flag = '✅'
             if(i[3] == '-'){
@@ -36,7 +35,7 @@ bot.on('message', async (ctx) => {
         await bot.telegram.sendMessage(ctx.chat.id, text, {...keyboard, protect_content: true, disable_web_page_preview: true, parse_mode: 'HTML'})
     }
     catch(e){
-        console.log(e.response.description)
+        console.log(e)
         if(e.response.description == 'Bad Request: message is too long'){
             const keyboard = false
             await bot.telegram.sendMessage(ctx.chat.id, 'Задахуя результатов поиска', {...keyboard, protect_content: true, disable_web_page_preview: true, parse_mode: 'HTML'})

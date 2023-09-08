@@ -1,31 +1,19 @@
-import http from "http"
 import fs from "fs"
+import fetch from "node-fetch"
 
-export default function getFileFromServer(link, nameFile){
-    const now = new Date().toLocaleDateString()
-    let now1
-    let now2
-    if(now.split('.')[0][0] == 0){
-        now1 = '0' + (now.split('.')[0] = Number(now.split('.')[0]) - 1) + '.' + now.split('.')[1] + '.' +  now.split('.')[2]
-        now2 = '0' + (now.split('.')[0] = Number(now.split('.')[0]) - 2) + '.' + now.split('.')[1] + '.' +  now.split('.')[2]
-    }
-    else{
-        now1 = (now.split('.')[0] = Number(now.split('.')[0]) - 1) + '.' + now.split('.')[1] + '.' +  now.split('.')[2]
-        now2 = (now.split('.')[0] = Number(now.split('.')[0]) - 2) + '.' + now.split('.')[1] + '.' +  now.split('.')[2]
-    }
-
-    for (let i of [now, now1, now2]){
-        let x = true
-        http.get(link + i + '.xls', response => {
-            if(response.statusMessage == 'OK' && x == true){
-                const file = fs.createWriteStream(nameFile)
-                response.pipe(file)
-                console.log(i + ' getFileFromServer Save OK')
-                x = false
+export default async function getFileFromServerPogremuhi(nameFile, limit){
+    return new Promise(async function(resolve, reject) {
+        let date = new Date()
+        for (let i = 0; i < limit; date.setDate(date.getDate() - 1)){
+            console.log('Test: ' + date.toLocaleDateString())
+            const res = await fetch('http://www.pogremuhi.com/pricelist/' + date.toLocaleDateString() + '.xls')
+            if(res.statusText == 'OK'){
+                res.body.pipe(fs.createWriteStream(nameFile))
+                console.log('Done!' + ' ' + date.toLocaleDateString())
+                i = limit
+                resolve('все окей')
             }
-        })
-        if(x == false){
-            break
-        } 
-    }
+            i++
+        }  
+    })
 }

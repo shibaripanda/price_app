@@ -5,7 +5,7 @@ import xlcToJson from "./modules/xlcToJson.js"
 import searchInfo from "./modules/searchInfo.js"
 import { Telegraf, Markup } from "telegraf"
 
-const bot = new Telegraf(process.env.BOT_TOKEN)
+const bot = new Telegraf(process.env.BOT_TOKEN,  {"drop_pending_updates": "True"})
 const option = {allowedUpdates: ['chat_member', 'callback_query', 'message', 'channel_post']}
 
 let bazaPrice 

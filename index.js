@@ -3,6 +3,7 @@ import 'dotenv/config'
 import getFileFromServerPogremuhi from "./modules/getFileFromServer.js"
 import xlcToJson from "./modules/xlcToJson.js"
 import searchInfo from "./modules/searchInfo.js"
+import clientPrice from "./modules/clientPrice.js"
 import { Telegraf, Markup } from "telegraf"
 
 const bot = new Telegraf(process.env.BOT_TOKEN,  {"drop_pending_updates": "True"})
@@ -11,24 +12,17 @@ const option = {allowedUpdates: ['chat_member', 'callback_query', 'message', 'ch
 let bazaPrice 
 
 bot.start(async (ctx) => {
-    const keyboard = Markup.inlineKeyboard([
-        [Markup.button.callback(`✔️`, `openAc${ctx.from.id}`), Markup.button.callback(`555`, `errorAc${ctx.from.id}`)]
-    ])
+    const keyboard = false
     await bot.telegram.sendMessage(ctx.chat.id, 'Привет', {...keyboard, protect_content: true, disable_web_page_preview: true, parse_mode: 'HTML'})
 })
 
 bot.on('message', async (ctx) => {
     try{
         const value = ctx.message.text.toLowerCase().replace(/ +/g, ' ').trim().split(' ')
-        const result = searchInfo(value, bazaPrice)
+        const result = await searchInfo(value, bazaPrice)
         let text = ctx.message.text.replace(/ +/g, ' ').trim() + '\n--------'
-        for(let i of result){
-            let flag = '✅'
-            if(i[3] == '-'){
-                flag = '❌'
-            }
-            text = text + '\n' + i[0] + '\n' + i[4] + '\n' + i[5] + '\n' + i[6] + ' ' + flag + '\n'
-        }
+        text = text + await clientPrice(result)
+        
         // console.log([...new Set(result.map(item => item[0]))])
         const keyboard = false
 

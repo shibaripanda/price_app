@@ -22,7 +22,7 @@ export default async function clientPrice(result){
         }
 
 
-        text = text + '\n' + i[0] + '\n' + i[4] + '\n' + i[5] + '\n($' + priceStartBaks + ') ' + priceStart.toFixed(2) + ' ' + flag + ' ' + priceClient.toFixed(2) + ' бел.руб.\n'
+        text = text + '\n' + `<b>${i[0]}</b>` + '\n' + i[4] + '\n' + i[5] + '\n($' + priceStartBaks + ') ' + priceStart.toFixed(2) + ' ' + flag + ' ' + `<b>${priceClient.toFixed(2)}</b>` + ' бел.руб.\n'
     }
     return text
 }

@@ -50,7 +50,7 @@ getFileFromServerPogremuhi('./files/price.xls', 25)
         setTimeout(() => {
             console.log('ok'+ ' ' + res)
             xlcToJson('./files/price.xls')
-              .then(res => bazaPrice = res)}, 1000) 
+              .then(res => bazaPrice = res)}, 3000) 
     },
     error => {
         console.log('no')}
@@ -61,7 +61,7 @@ getFileFromServerPogremuhi('./files/price.xls', 25)
 baza()
 setInterval(()=>{
     baza()
-}, 360000)
+}, 3600000)
 
 bot.launch(option)
 process.once('SIGINT', () => bot.stop('SIGINT'))

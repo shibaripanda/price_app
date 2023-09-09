@@ -27,7 +27,7 @@ bot.on('message', async (ctx) => {
             if(i[3] == '-'){
                 flag = '❌'
             }
-            text = text + '\n' + i[0] + '\n' + i[4] + '\n' + i[6] + ' ' + flag + '\n'
+            text = text + '\n' + i[0] + '\n' + i[4] + '\n' + i[5] + '\n' + i[6] + ' ' + flag + '\n'
         }
         // console.log([...new Set(result.map(item => item[0]))])
         const keyboard = false

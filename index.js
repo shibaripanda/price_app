@@ -29,10 +29,15 @@ bot.on('message', async (ctx) => {
         await bot.telegram.sendMessage(ctx.chat.id, text, {...keyboard, protect_content: true, disable_web_page_preview: true, parse_mode: 'HTML'})
     }
     catch(e){
-        console.log(e)
-        if(e.response.description == 'Bad Request: message is too long'){
-            const keyboard = false
-            await bot.telegram.sendMessage(ctx.chat.id, 'Задахуя результатов поиска', {...keyboard, protect_content: true, disable_web_page_preview: true, parse_mode: 'HTML'})
+        try{
+            console.log(e)
+            if(e.response.description == 'Bad Request: message is too long'){
+                const keyboard = false
+                await bot.telegram.sendMessage(ctx.chat.id, 'Задахуя результатов поиска', {...keyboard, protect_content: true, disable_web_page_preview: true, parse_mode: 'HTML'})
+            }
+        }
+        catch(e){
+            console.log(e)
         }
     }
 })

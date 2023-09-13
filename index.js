@@ -72,7 +72,7 @@ bot.on('callback_query', async (ctx) => {
             const info = bazaPrice.filter(item => item[1] == value.split('|')[1])
             // 503091630
             // 599773731
-            await bot.telegram.sendMessage('599773731', 'Уважаемый, Дедушка, возьмите эту диталю:\n' + info[0][0] + '\n' + info[0][4] + '\n' + info[0][5]+ '\n' + info[0][6] + '\n' + value.split('|')[2], {...keyboard, protect_content: true, disable_web_page_preview: true, parse_mode: 'HTML'})
+            await bot.telegram.sendMessage('503091630', 'Уважаемый, Дедушка, возьмите эту диталю:\n' + info[0][0] + '\n' + info[0][4] + '\n' + info[0][5]+ '\n' + info[0][6] + '\n' + value.split('|')[2], {...keyboard, protect_content: true, disable_web_page_preview: true, parse_mode: 'HTML'})
             await bot.telegram.editMessageReplyMarkup(ctx.from.id, ctx.update.callback_query.message.message_id, 'g', { inline_keyboard: [[{ text: 'Ок', callback_data: 'zero' }]] })
         }
     }

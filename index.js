@@ -19,8 +19,13 @@ setInterval(()=>{
 }, 3600000)
 
 bot.start(async (ctx) => {
-    const keyboard = false
-    await bot.telegram.sendMessage(ctx.chat.id, 'Привет', {...keyboard, protect_content: true, disable_web_page_preview: true, parse_mode: 'HTML'})
+    try{
+        const keyboard = false
+        await bot.telegram.sendMessage(ctx.chat.id, 'Привет', {...keyboard, protect_content: true, disable_web_page_preview: true, parse_mode: 'HTML'})
+    }
+    catch(e){
+        console.log(e)
+    }
 })
 
 bot.on('message', async (ctx) => {
@@ -62,18 +67,23 @@ bot.on('message', async (ctx) => {
 })
 
 bot.on('callback_query', async (ctx) => {
-    await ctx.answerCbQuery()
-    console.log(ctx.update.callback_query.message.message_id)
-    console.log(ctx.update.callback_query.message.reply_markup.inline_keyboard)
-    let value = await ctx.update.callback_query.data
-    let keyboard = false
-    let model = /model/
-    if(model.test(value.slice(0, 5))){
-        const info = bazaPrice.filter(item => item[1] == value.split('|')[1])
-        // 503091630
-        // 599773731
-        await bot.telegram.sendMessage('503091630', 'Уважаемый, Дедушка, возьмите эту диталю:\n' + info[0][0] + '\n' + info[0][4] + '\n' + info[0][5]+ '\n' + info[0][6] + '\n' + value.split('|')[2], {...keyboard, protect_content: true, disable_web_page_preview: true, parse_mode: 'HTML'})
-        await bot.telegram.editMessageReplyMarkup(ctx.from.id, ctx.update.callback_query.message.message_id, 'g', { inline_keyboard: [[{ text: 'Ок', callback_data: 'zero' }]] })
+    try{
+        await ctx.answerCbQuery()
+        console.log(ctx.update.callback_query.message.message_id)
+        console.log(ctx.update.callback_query.message.reply_markup.inline_keyboard)
+        let value = await ctx.update.callback_query.data
+        let keyboard = false
+        let model = /model/
+        if(model.test(value.slice(0, 5))){
+            const info = bazaPrice.filter(item => item[1] == value.split('|')[1])
+            // 503091630
+            // 599773731
+            await bot.telegram.sendMessage('599773731', 'Уважаемый, Дедушка, возьмите эту диталю:\n' + info[0][0] + '\n' + info[0][4] + '\n' + info[0][5]+ '\n' + info[0][6] + '\n' + value.split('|')[2], {...keyboard, protect_content: true, disable_web_page_preview: true, parse_mode: 'HTML'})
+            await bot.telegram.editMessageReplyMarkup(ctx.from.id, ctx.update.callback_query.message.message_id, 'g', { inline_keyboard: [[{ text: 'Ок', callback_data: 'zero' }]] })
+        }
+    }
+    catch(e){
+        console.log(e)
     }
 })
 

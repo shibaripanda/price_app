@@ -30,12 +30,9 @@ bot.start(async (ctx) => {
 
 bot.on('message', async (ctx) => {
     try{
-        console.log('work')
-        console.log(ctx.from.id + ' ' + ctx.from.username)
         if(bazaPrice !== undefined){
             const value = ctx.message.text.toLowerCase().replace(/ +/g, ' ').trim().split(' ')
             const result = await searchInfo(value, bazaPrice)
-            console.log(result.length)
             if(result.length == 0){
                 const keyboard = false
                 await bot.telegram.sendMessage(ctx.chat.id, 'нет результатов', {...keyboard, protect_content: true, disable_web_page_preview: true, parse_mode: 'HTML'})
@@ -43,7 +40,6 @@ bot.on('message', async (ctx) => {
             }
             else{
                for(let i of await clientPriceBut(result)){
-                console.log(i.but[1].slice(0, 21))
                     const keyboard = Markup.inlineKeyboard([
                         [Markup.button.callback(i.but[0], i.but[1])]
                 ]) 
@@ -69,8 +65,6 @@ bot.on('message', async (ctx) => {
 bot.on('callback_query', async (ctx) => {
     try{
         await ctx.answerCbQuery()
-        console.log(ctx.update.callback_query.message.message_id)
-        console.log(ctx.update.callback_query.message.reply_markup.inline_keyboard)
         let value = await ctx.update.callback_query.data
         let keyboard = false
         let model = /model/
